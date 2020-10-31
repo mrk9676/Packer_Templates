@@ -1,0 +1,42 @@
+{
+"variables": {
+	"my_access_key": "",
+	"my_region": "ap-south-1",
+	"my_secret_key": "",
+	"my_instance_type": "t2.micro",
+	"my_source_ami": "ami-0cda377a1b884a1bc",
+	"my_ssh_username": "ubuntu"
+
+},
+
+
+"builders": [
+	{
+		"type": "amazon-ebs",
+		"ami_name": "My_Nginx_AMI",
+		"access_key": "{{ user `my_access_key`}}",
+		"region": "{{ user `my_region` }}",
+		"secret_key": "{{ user `my_secret_key` }}",
+		"instance_type": "{{ user `my_instance_type` }}",
+		"source_ami": "{{ user `my_source_ami` }}",
+		"communicator": "ssh",
+		"ssh_port": "22",
+		"ssh_username": "{{ user `my_ssh_username` }}",
+		"ssh_timeout": "10m",
+		"tags": {
+			"Name": "My_XYZ_AMI"
+		}
+
+	}
+],
+"provisioners": [
+	{
+		"type": "shell",
+		"inline": [
+			"sudo apt-get update",
+			"sudo apt install nginx -y"
+		]
+	}
+]
+}
+
